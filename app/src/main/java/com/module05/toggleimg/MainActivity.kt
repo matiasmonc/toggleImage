@@ -57,18 +57,14 @@ fun Content(paddingValues: PaddingValues) {
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        Text(
-            text = "!Bienvenido¡",
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            fontSize = 50.sp
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(
-            text = "Matías Moncada",
-            fontSize = 30.sp
-        )
-        Spacer(modifier = Modifier.height(10.dp))
+        Title(texto = "!Bienvenido¡")
+
+        Gap()
+
+        Name(texto = "Matías Moncada")
+
+        Gap()
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
@@ -77,18 +73,47 @@ fun Content(paddingValues: PaddingValues) {
                 Text(text = if (!toggleImage) "Mostrar Imagen" else "Ocultar Imagen")
             }
         }
-        Spacer(modifier = Modifier.height(10.dp))
+
+        Gap()
 
         if(toggleImage){
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ){
-                Image(
-                    painter = painterResource(id = R.drawable.example),
-                    contentDescription = "Imagen de ejemplo"
-                )
-            }
+            ShowImage()
         }
 
+    }
+}
+
+@Composable
+fun Title(texto: String){
+    Text(
+        text = texto,
+        fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Center,
+        fontSize = 50.sp
+    )
+}
+
+@Composable
+fun Name(texto: String){
+    Text(
+        text = texto,
+        fontSize = 30.sp
+    )
+}
+
+@Composable
+fun Gap(){
+    Spacer(modifier = Modifier.height(10.dp))
+}
+
+@Composable
+fun ShowImage(){
+    Row(
+        modifier = Modifier.fillMaxWidth()
+    ){
+        Image(
+            painter = painterResource(id = R.drawable.example),
+            contentDescription = "Imagen de ejemplo"
+        )
     }
 }
