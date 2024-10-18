@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -24,13 +26,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.module05.toggleimg.ui.theme.ToggleImgTheme
+import coil.compose.rememberImagePainter
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +55,14 @@ class MainActivity : ComponentActivity() {
 fun Content(paddingValues: PaddingValues) {
 
     var toggleImage by remember { mutableStateOf(false) }
+
+    val images = listOf(
+        R.drawable.example,
+        R.drawable.example2,
+        R.drawable.example3,
+        R.drawable.example4,
+        R.drawable.example5
+    )
 
     Column(
         modifier = Modifier
@@ -77,7 +90,7 @@ fun Content(paddingValues: PaddingValues) {
         Gap()
 
         if(toggleImage){
-            ShowImage()
+            ShowImage(images)
         }
 
     }
@@ -107,13 +120,25 @@ fun Gap(){
 }
 
 @Composable
-fun ShowImage(){
-    Row(
+fun ShowImage(images: List<Int>){
+
+    LazyColumn(
         modifier = Modifier.fillMaxWidth()
-    ){
-        Image(
-            painter = painterResource(id = R.drawable.example),
-            contentDescription = "Imagen de ejemplo"
-        )
+    ) {
+        items(images) { item ->
+            ImageItem(image = item)
+        }
     }
+}
+
+@Composable
+fun ImageItem(image: Int){
+    Image(
+        painter = rememberAsyncImagePainter(model = image),
+        contentDescription = "Imagen de ejemplo",
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp),
+        contentScale = ContentScale.Crop
+    )
 }
